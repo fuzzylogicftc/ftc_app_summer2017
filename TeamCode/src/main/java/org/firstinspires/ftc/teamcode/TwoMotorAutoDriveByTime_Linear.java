@@ -37,8 +37,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-
 /**
  * This file illustrates the concept of driving a path based on time.
  * It uses the common Pushbot hardware class to define the drive on the robot.
@@ -65,8 +63,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 public class TwoMotorAutoDriveByTime_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
-    private ElapsedTime     runtime = new ElapsedTime();
+    HardwareTwoMotorDrivetrain  robot   = new HardwareTwoMotorDrivetrain();   // Use a Pushbot's hardware
+    private ElapsedTime         runtime = new ElapsedTime();
 
 
     static final double     FORWARD_SPEED = 0.6;
@@ -94,10 +92,11 @@ public class TwoMotorAutoDriveByTime_Linear extends LinearOpMode {
         robot.leftMotor.setPower(FORWARD_SPEED);
         robot.rightMotor.setPower(FORWARD_SPEED);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+        this.pause(3000);
 
         // Step 2:  Spin right for 1.3 seconds
         robot.leftMotor.setPower(TURN_SPEED);
@@ -107,6 +106,7 @@ public class TwoMotorAutoDriveByTime_Linear extends LinearOpMode {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+        this.pause(3000);
 
         // Step 3:  Drive Backwards for 1 Second
         robot.leftMotor.setPower(-FORWARD_SPEED);
@@ -116,15 +116,20 @@ public class TwoMotorAutoDriveByTime_Linear extends LinearOpMode {
             telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+        this.pause(3000);
 
-        // Step 4:  Stop and close the claw.
+        // Step 4: Stop
         robot.leftMotor.setPower(0);
         robot.rightMotor.setPower(0);
-        robot.leftClaw.setPosition(1.0);
-        robot.rightClaw.setPosition(0.0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
+    }
+
+    private void pause(int millis) {
+        robot.leftMotor.setPower(0);
+        robot.rightMotor.setPower(0);
+        sleep (millis);
     }
 }
