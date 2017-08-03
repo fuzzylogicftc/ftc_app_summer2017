@@ -59,7 +59,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Auto Drive By Time", group="Two Motor Robot")
-@Disabled
+
 public class TwoMotorAutoDriveByTime_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
